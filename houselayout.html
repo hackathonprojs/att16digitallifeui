@@ -1,0 +1,167 @@
+<html>
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta name="viewport" content="width=600, initial-scale=1">
+    <title>house layout</title>
+</head>
+
+<body>
+<div id="outermost">
+	<img id="plan" src="img/house_plan.jpg" style="width: 600px;"/>
+	<div id="bedroom1" class="area">
+	</div>
+	<div id="kitchen" class="area">
+	</div>
+	<div id="livingroom" class="area">
+	</div>
+	<div id="toilet1" class="area">
+	</div>
+	<div id="garage" class="area">
+	</div>
+	<img id="kitchen-fire" src="img/animated-fire.gif" />
+	</div>
+</div>
+
+</body>
+
+<style>
+
+#outermost {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#plan {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#bedroom1 {
+	position: absolute;
+	top: 105px;
+	left: 19px;
+	width: 129px;
+	height: 134px;
+}
+
+.area {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.area:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.area-blue {
+	background-color: rgba(0, 0, 255, 0.5);
+}
+
+.area-orange {
+	background-color: rgba(255, 165, 0, 0.5);
+}
+
+.area-red {
+	background-color: rgba(255, 0, 0, 0.5);
+}
+
+.area-grey {
+	background-color: rgba(169,169,169,0.5);
+}
+
+.area-clear {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+#kitchen {
+	position: absolute;
+	top: 105px;
+	left: 154px;
+	width: 130px;
+	height: 150px;
+}
+
+#livingroom {
+	position: absolute;
+	top: 284px;
+	left: 154px;
+	width: 130px;
+	height: 130px;
+}
+
+#toilet1 {
+	position: absolute;
+	top: 285px;
+	left: 19px;
+	width: 88px;
+	height: 87px;
+}
+
+#garage {
+	position: absolute;
+	top: 379px;
+	left: 19px;
+	width: 129px;
+	height: 152px;
+}
+
+#kitchen-fire {
+	position: absolute;
+	top: 120px;
+	left: 170px;
+	width: 100px;
+	height: 100px;
+	display: none;
+}
+
+</style>
+
+<script src="js/jquery-3.0.0.min.js"></script>
+
+<script type="text/javascript">
+function changeAreaColor(areaSelector, color) {
+	$(areaSelector).css("background-color", color);
+}
+
+function changeAreaPresetColor(areaSelector, colorClass) {
+	$(areaSelector).removeClass().addClass("area").addClass(colorClass);
+}
+
+function toRed(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-red");
+}
+
+function toOrange(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-orange");
+}
+
+function toBlue(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-blue");
+}
+
+function toGrey(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-grey");
+}
+
+function toClear(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-clear");
+}
+
+function showKitchenFire() {
+	toRed("#kitchen");
+	$("#kitchen-fire").show();
+}
+
+function clearKitchenFire() {
+	toClear("#kitchen");
+	$("#kitchen-fire").hide();
+}
+
+(function() {
+
+})();
+</script>
+
+
+</html>

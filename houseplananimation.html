@@ -1,0 +1,242 @@
+<html>
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta name="viewport" content="width=600, initial-scale=1">
+    <title>house layout</title>
+</head>
+
+<body>
+<div id="outermost">
+	<img id="plan" src="img/house_plan.jpg" style="width: 600px;"/>
+	<div id="bedroom1" class="area">
+	</div>
+	<div id="kitchen" class="area">
+	</div>
+	<div id="livingroom" class="area">
+	</div>
+	<div id="toilet1" class="area">
+	</div>
+	<div id="garage" class="area">
+	</div>
+	<img id="kitchen-fire" src="img/animated-fire.gif" />
+	</div>
+</div>
+
+</body>
+
+<style>
+
+#outermost {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#plan {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#bedroom1 {
+	position: absolute;
+	top: 105px;
+	left: 19px;
+	width: 129px;
+	height: 134px;
+}
+
+.area {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.area:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.area-blue {
+	background-color: rgba(0, 0, 255, 0.5);
+}
+
+.area-orange {
+	background-color: rgba(255, 165, 0, 0.5);
+}
+
+.area-red {
+	background-color: rgba(255, 0, 0, 0.5);
+}
+
+.area-grey {
+	background-color: rgba(169,169,169,0.5);
+}
+
+.area-clear {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+#kitchen {
+	position: absolute;
+	top: 105px;
+	left: 154px;
+	width: 130px;
+	height: 150px;
+}
+
+#livingroom {
+	position: absolute;
+	top: 284px;
+	left: 154px;
+	width: 130px;
+	height: 130px;
+}
+
+#toilet1 {
+	position: absolute;
+	top: 285px;
+	left: 19px;
+	width: 88px;
+	height: 87px;
+}
+
+#garage {
+	position: absolute;
+	top: 379px;
+	left: 19px;
+	width: 129px;
+	height: 152px;
+}
+
+#kitchen-fire {
+	position: absolute;
+	top: 120px;
+	left: 170px;
+	width: 100px;
+	height: 100px;
+	display: none;
+}
+
+</style>
+
+<script src="js/jquery-3.0.0.min.js"></script>
+
+<script type="text/javascript">
+function changeAreaColor(areaSelector, color) {
+	$(areaSelector).css("background-color", color);
+}
+
+function changeAreaPresetColor(areaSelector, colorClass) {
+	$(areaSelector).removeClass().addClass("area").addClass(colorClass);
+}
+
+function toRed(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-red");
+}
+
+function toOrange(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-orange");
+}
+
+function toBlue(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-blue");
+}
+
+function toGrey(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-grey");
+}
+
+function toClear(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-clear");
+}
+
+function showKitchenFire() {
+	toRed("#kitchen");
+	$("#kitchen-fire").show();
+}
+
+function clearKitchenFire() {
+	toClear("#kitchen");
+	$("#kitchen-fire").hide();
+}
+
+//
+// gets digital-life data
+//
+
+// some variables
+var urlPrefix = "https://systest.digitallife.att.com:443/penguin";
+var gatewayGUID = "485317BF0E4A4E9CA3A5704AD417DAE3";
+var coAlarmDevice = "";
+var alertUri = "/api/{gatewayGUID}/devices/alerts";
+alertUri = alertUri.replace("{gatewayGUID}", gatewayGUID);
+var alertUrl = urlPrefix + alertUri;
+var Appkey = "TE_9539DC0B270FF272_1";
+var Authtoken = "c708c31152dc666c9f2ad8115b1ead3ba9c1cf6133e9dee5e7a1b6485c703f57085aeafc026f9d8717b434e98ed919ae22778f37510d3d0eddde5925250b7d5e66374e8c82a899a5051555b97d9f0ddcfa49a1ba09e88b169f83674b6d6f90553af2e21b72f277ca2f5b9202f5bf";
+var Requesttoken = "0ff534bc2f055f2f7fa400c304797680";
+
+
+
+
+function getCoAlarm() {
+	$.ajax(alertUrl, {
+		type: 'GET',
+		dataType: 'json',
+	  	success: success,
+	  	error: error,
+	  	headers: {
+	  		"Appkey": Appkey,
+	  		"Authtoken": Authtoken,
+	  		"Requesttoken": Requesttoken
+	  	}
+	});
+
+	function success(data) {
+		var coAlarmOn = false;
+
+		if (console) {
+			console.log(data);
+		}
+
+		if (data && data.content && data.content.alerts) {
+			for (var prop in data.content.alerts) {
+				console.log("alert " + prop);
+				console.log(data.content.alerts[prop]);
+
+				var deviceAlerts = data.content.alerts[prop];
+
+				for (var i = 0; i<deviceAlerts.length; i++) {
+					var alert = deviceAlerts[i];
+					if (alert.deviceEventLabel == "co-alarm") {
+						// this is carbon dioxide alarm
+						coAlarmOn = true;
+					}
+				}
+				 
+			}
+
+			if (coAlarmOn) {
+				showKitchenFire();
+				console.log("co-alarm is one");
+			} else {
+				clearKitchenFire();
+			}
+		}
+	}
+
+	function error() {
+		if (console) {
+			console.log("error");
+		}
+	}
+}
+
+setInterval(getCoAlarm, 1000);
+
+
+
+(function() {
+
+})();
+</script>
+
+
+</html>
