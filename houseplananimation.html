@@ -421,6 +421,18 @@ function moveRight() {
 	$.post("https://maker.ifttt.com/trigger/turnright/with/key/UlvFhKl_pEbC4z6zTe7f5");
 }
 
+
+
+/**
+ * when the person falldown
+ */
+function falldown() {
+	onArrivingConfroom1($("#billgates"));
+	stopPersonAnimation();
+}
+
+
+
 (function() {
 
 })();
@@ -438,10 +450,16 @@ var config = {
 firebase.initializeApp(config);
 
 // wait for trigger from pebble watch
+var triggerValue = undefined;
 firebase.database().ref('trigger/event').on('value', function(snapshot) {
 	if (console) {
 		var value = snapshot.val();
 		console.log(snapshot.val());
+		if (triggerValue) {
+			falldown();
+		}
+		triggerValue = snapshot.val();
+		
 	}
 });
 
@@ -450,6 +468,9 @@ firebase.database().ref('trigger/event').on('value', function(snapshot) {
 
 
 <script type="text/javascript">
+	var startPersonAnimation;
+	var stopPersonAnimation;
+
 	// doing animation
   	(function() {
   		var confroom1 = {xmin:20, ymin: 20, xmax: 200, ymax: 140};
@@ -511,7 +532,17 @@ firebase.database().ref('trigger/event').on('value', function(snapshot) {
 
 	  	}
 
-	  	setInterval(positionChange, 2000);
+	  	var personAnimation = setInterval(positionChange, 2000);
+	  	
+	  	startPersonAnimation = function() {
+	  		personAnimation = setInterval(positionChange, 2000);
+	  	}
+	  	stopPersonAnimation = function() {
+	  		clearInterval(personAnimation);
+	  	}
+	  	
+
+
 
 	  	function lightup(position) {
 	  		var areaColor = "area-yellow";
@@ -553,36 +584,37 @@ firebase.database().ref('trigger/event').on('value', function(snapshot) {
 	  		return inside;
 	  	}
 
-	  	function onArrivingConfroom1(personElem) {
-	  		personElem.find(".person-status").text("arrived");
-	  		personElem.children(".person-status-container").show();
-	  		personElem.children(".wait").show();
-
-	  		setTimeout(showAdding, 1000, personElem);
-
-	  		
-	  	}
-
-	  	function onLeavingConfroom1(personElem) {
-	  		personElem.find(".person-status").text("");
-	  		personElem.children(".person-status-container").hide();
-	  		personElem.children(".checkmark").css("display", "none");
-	  	}
-
-	  	function showAdding(personElem) {
-	  		personElem.children(".wait").show();
-	  		personElem.find(".person-status").text("Fell down.");
-
-	  		setTimeout(showAdded, 1000, personElem);
-	  	}
-
-	  	function showAdded(personElem) {
-	  		personElem.children(".wait").hide();
-	  		personElem.find(".person-status").text("Alert system.");
-	  		personElem.children(".checkmark").show();
-	  	}
+	  	
   	})();
   	
+  	function onArrivingConfroom1(personElem) {
+  		personElem.find(".person-status").text("arrived");
+  		personElem.children(".person-status-container").show();
+  		personElem.children(".wait").show();
+
+  		setTimeout(showAdding, 1000, personElem);
+
+  		
+  	}
+
+  	function onLeavingConfroom1(personElem) {
+  		personElem.find(".person-status").text("");
+  		personElem.children(".person-status-container").hide();
+  		personElem.children(".checkmark").css("display", "none");
+  	}
+
+  	function showAdding(personElem) {
+  		personElem.children(".wait").show();
+  		personElem.find(".person-status").text("Fell down.");
+
+  		setTimeout(showAdded, 1000, personElem);
+  	}
+
+  	function showAdded(personElem) {
+  		personElem.children(".wait").hide();
+  		personElem.find(".person-status").text("Alert system.");
+  		personElem.children(".checkmark").show();
+  	}
   </script>
 
 </html>
