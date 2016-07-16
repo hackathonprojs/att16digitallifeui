@@ -28,6 +28,7 @@
   		</div>
   		<img class="checkmark status-icon" src="img/checkmark1.svg"/>
   		<img class="wait status-icon" src="img/wait.gif"/>
+  		<img class="falldown" src="img/falldown.png"/>
   	</div>
 
 	<div id="control-button-container">
@@ -201,6 +202,18 @@
 
   .person .wait {
   	display: none;
+  }
+
+  .person .falldown {
+  	width: 200px;
+  	height: 200px;
+  	position: absolute;
+  	left: 30px;
+  	top: -200px;
+  	/* image opacity */
+  	opacity: 1.0;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+    display: none;
   }
 
   .person .person-status-container {
@@ -427,8 +440,10 @@ function moveRight() {
  * when the person falldown
  */
 function falldown() {
+	// onArrivingConfroom1 is repurposed to show fall down message
 	onArrivingConfroom1($("#billgates"));
 	stopPersonAnimation();
+	$(".person .falldown").show();
 }
 
 
@@ -584,11 +599,12 @@ firebase.database().ref('trigger/event').on('value', function(snapshot) {
 	  		return inside;
 	  	}
 
+
 	  	
   	})();
   	
   	function onArrivingConfroom1(personElem) {
-  		personElem.find(".person-status").text("arrived");
+  		personElem.find(".person-status").text("Fell down");
   		personElem.children(".person-status-container").show();
   		personElem.children(".wait").show();
 
@@ -605,14 +621,14 @@ firebase.database().ref('trigger/event').on('value', function(snapshot) {
 
   	function showAdding(personElem) {
   		personElem.children(".wait").show();
-  		personElem.find(".person-status").text("Fell down.");
+  		personElem.find(".person-status").text("Fell down");
 
   		setTimeout(showAdded, 1000, personElem);
   	}
 
   	function showAdded(personElem) {
   		personElem.children(".wait").hide();
-  		personElem.find(".person-status").text("Alert system.");
+  		personElem.find(".person-status").text("Alert system");
   		personElem.children(".checkmark").show();
   	}
   </script>
