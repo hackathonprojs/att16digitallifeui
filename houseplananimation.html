@@ -20,7 +20,16 @@
 	</div>
 	<img id="kitchen-fire" src="img/animated-fire.gif" />
 	</div>
+	
+	<div id="control-button-container">
+		<a href="#" id="up-button" class="myButton arrow" onclick="moveUp()">&#8679</a>
+		<a href="#" id="down-button" class="myButton arrow" onclick="moveDown()">&#8681</a>
+		<a href="#" id="left-button" class="myButton arrow" onclick="moveLeft()">&#8678</a>
+		<a href="#" id="right-button" class="myButton arrow" onclick="moveRight()">&#8680</a>
+	</div>
 </div>
+
+
 
 </body>
 
@@ -115,9 +124,91 @@
 	display: none;
 }
 
+
+#control-button-container {
+	position: absolute;
+	top: 180px;
+	left: 650px;
+}
+
+#up-button {
+	position: absolute;
+	top: 10px;
+	left: 100px;
+}
+
+#down-button {
+	position: absolute;
+	top: 115px;
+	left: 100px;
+}
+
+#left-button {
+	position: absolute;
+	top: 60px;
+	left: 10px;
+}
+
+#right-button {
+	position: absolute;
+	top: 60px;
+	left: 181px;
+}
+
+</style>
+
+<style>
+.myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ff5bb0), color-stop(1, #ef027d));
+	background:-moz-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-webkit-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-o-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-ms-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:linear-gradient(to bottom, #ff5bb0 5%, #ef027d 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bb0', endColorstr='#ef027d',GradientType=0);
+	background-color:#ff5bb0;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ee1eb5;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #c70067;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ef027d), color-stop(1, #ff5bb0));
+	background:-moz-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:-webkit-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:-o-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:-ms-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:linear-gradient(to bottom, #ef027d 5%, #ff5bb0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ef027d', endColorstr='#ff5bb0',GradientType=0);
+	background-color:#ef027d;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.arrow {
+	font-size: 2em;
+}
+
 </style>
 
 <script src="js/jquery-3.0.0.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 
 <script type="text/javascript">
 function changeAreaColor(areaSelector, color) {
@@ -229,14 +320,51 @@ function getCoAlarm() {
 	}
 }
 
-// remove this so we don't check the status
+// temporary stop getting data from at&t digital life
 //setInterval(getCoAlarm, 1000);
 
 
+/**
+ * move the robot up
+ */
+function moveUp() {
+	$.post("https://maker.ifttt.com/trigger/forward/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
+
+function moveDown() {
+	$.post("https://maker.ifttt.com/trigger/backward/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
+
+function moveLeft() {
+	$.post("https://maker.ifttt.com/trigger/leftturn/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
+
+function moveRight() {
+	$.post("https://maker.ifttt.com/trigger/turnright/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
 
 (function() {
 
 })();
+</script>
+
+
+<script>
+// Initialize Firebase
+// TODO: Replace with your project's customized code snippet
+var config = {
+  apiKey: "apiKey",
+  databaseURL: "https://att2016hackathon.firebaseio.com",
+};
+firebase.initializeApp(config);
+
+firebase.database().ref('trigger/event').on('value', function(snapshot) {
+	if (console) {
+		var value = snapshot.val();
+		console.log(snapshot.val());
+	}
+});
+
 </script>
 
 
