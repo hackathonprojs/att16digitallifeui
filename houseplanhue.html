@@ -1,0 +1,757 @@
+<html>
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta name="viewport" content="width=600, initial-scale=1">
+    <title>house layout</title>
+</head>
+
+<body>
+<div id="outermost">
+	<img id="plan" src="img/house_plan.jpg" style="width: 600px;"/>
+	<div id="bedroom1" class="area">
+	</div>
+	<div id="kitchen" class="area">
+	</div>
+	<div id="livingroom" class="area">
+	</div>
+	<div id="toilet1" class="area">
+	</div>
+	<div id="garage" class="area">
+	</div>
+	<img id="kitchen-fire" src="img/animated-fire.gif" />
+	</div>
+	
+	<div class="person" id="billgates">
+  		<img class="person-pic" src="img/person/grandma.png"/>
+  		<div class="person-status-container">
+  			<p class="person-status">arrived</p>
+  		</div>
+  		<img class="checkmark status-icon" src="img/checkmark1.svg"/>
+  		<img class="wait status-icon" src="img/wait.gif"/>
+  		<img class="falldown" src="img/falldown.png"/>
+  	</div>
+
+	<div id="control-button-container">
+		<a href="#" id="up-button" class="myButton arrow" onclick="moveUp()">&#8679</a>
+		<a href="#" id="down-button" class="myButton arrow" onclick="moveDown()">&#8681</a>
+		<a href="#" id="left-button" class="myButton arrow" onclick="moveLeft()">&#8678</a>
+		<a href="#" id="right-button" class="myButton arrow" onclick="moveRight()">&#8680</a>
+	</div>
+</div>
+
+
+
+</body>
+
+<style>
+
+#outermost {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#plan {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#bedroom1 {
+	position: absolute;
+	top: 105px;
+	left: 19px;
+	width: 129px;
+	height: 134px;
+}
+
+.area {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.area:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.area-blue {
+	background-color: rgba(0, 0, 255, 0.5);
+}
+
+.area-orange {
+	background-color: rgba(255, 165, 0, 0.5);
+}
+
+.area-red {
+	background-color: rgba(255, 0, 0, 0.5);
+}
+
+.area-grey {
+	background-color: rgba(169,169,169,0.5);
+}
+
+.area-yellow {
+	background-color: rgba(255,255,0,0.5);
+}
+
+.area-clear {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+#kitchen {
+	position: absolute;
+	top: 105px;
+	left: 154px;
+	width: 130px;
+	height: 150px;
+}
+
+#livingroom {
+	position: absolute;
+	top: 284px;
+	left: 154px;
+	width: 130px;
+	height: 130px;
+}
+
+#toilet1 {
+	position: absolute;
+	top: 285px;
+	left: 19px;
+	width: 88px;
+	height: 87px;
+}
+
+#garage {
+	position: absolute;
+	top: 379px;
+	left: 19px;
+	width: 129px;
+	height: 152px;
+}
+
+#kitchen-fire {
+	position: absolute;
+	top: 120px;
+	left: 170px;
+	width: 100px;
+	height: 100px;
+	display: none;
+}
+
+
+#control-button-container {
+	position: absolute;
+	top: 180px;
+	left: 650px;
+}
+
+#up-button {
+	position: absolute;
+	top: 10px;
+	left: 100px;
+}
+
+#down-button {
+	position: absolute;
+	top: 115px;
+	left: 100px;
+}
+
+#left-button {
+	position: absolute;
+	top: 60px;
+	left: 10px;
+}
+
+#right-button {
+	position: absolute;
+	top: 60px;
+	left: 181px;
+}
+
+</style>
+
+<style>
+  .person {
+  	position: absolute;
+  	transition: top 2s, left 2s
+  }
+
+  .person .person-pic {
+  	width: 50px;
+  	height: 50px;
+  	position: absolute;
+  	left: 0px;
+  	top: 0px;
+  }
+
+  .person .status-icon {
+  	width: 40px;
+  	height: 40px;
+  	position: absolute;
+  	left: 30px;
+  	top: -20px;
+  	/* image opacity */
+  	opacity: 1.0;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+  }
+
+  .person .checkmark {
+  	display: none;
+  }
+
+  .person .wait {
+  	display: none;
+  }
+
+  .person .falldown {
+  	width: 200px;
+  	height: 200px;
+  	position: absolute;
+  	left: 30px;
+  	top: -200px;
+  	/* image opacity */
+  	opacity: 1.0;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+    display: none;
+  }
+
+  .person .person-status-container {
+  	height: 50px;
+  	width: 250px;
+  	overflow: hidden;
+  	position: absolute;
+  	left: 50px;
+  	top: 0px;
+  	background-color: rgba(63, 192, 127, 0.8);
+  	display: none;
+  }
+
+  .person .person-status {
+  	height: 50px;
+  	/*position: absolute;
+  	left: 50px;
+  	top: 0px;*/
+    color: #e6e6e6;
+    font-size: 30px;
+    margin: 5px 10px;
+    box-sizing: border-box;
+  }
+
+  #billgates {
+  	left: 160px;
+  	top: 190px;
+  }
+</style>
+
+<style>
+.myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ff5bb0), color-stop(1, #ef027d));
+	background:-moz-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-webkit-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-o-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-ms-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:linear-gradient(to bottom, #ff5bb0 5%, #ef027d 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bb0', endColorstr='#ef027d',GradientType=0);
+	background-color:#ff5bb0;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ee1eb5;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #c70067;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ef027d), color-stop(1, #ff5bb0));
+	background:-moz-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:-webkit-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:-o-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:-ms-linear-gradient(top, #ef027d 5%, #ff5bb0 100%);
+	background:linear-gradient(to bottom, #ef027d 5%, #ff5bb0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ef027d', endColorstr='#ff5bb0',GradientType=0);
+	background-color:#ef027d;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.arrow {
+	font-size: 2em;
+}
+
+</style>
+
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+<script type="text/javascript">
+function changeAreaColor(areaSelector, color) {
+	$(areaSelector).css("background-color", color);
+}
+
+function changeAreaPresetColor(areaSelector, colorClass) {
+	$(areaSelector).removeClass().addClass("area").addClass(colorClass);
+}
+
+function toRed(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-red");
+}
+
+function toOrange(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-orange");
+}
+
+function toBlue(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-blue");
+}
+
+function toGrey(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-grey");
+}
+
+function toYellow(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-yellow");
+}
+
+function toClear(areaSelector) {
+	changeAreaPresetColor(areaSelector, "area-clear");
+}
+
+function showKitchenFire() {
+	toRed("#kitchen");
+	$("#kitchen-fire").show();
+}
+
+function clearKitchenFire() {
+	toClear("#kitchen");
+	$("#kitchen-fire").hide();
+}
+
+//
+// gets digital-life data
+//
+
+// some variables
+var urlPrefix = "https://systest.digitallife.att.com:443/penguin";
+var gatewayGUID = "485317BF0E4A4E9CA3A5704AD417DAE3";
+var coAlarmDevice = "";
+var alertUri = "/api/{gatewayGUID}/devices/alerts";
+alertUri = alertUri.replace("{gatewayGUID}", gatewayGUID);
+var alertUrl = urlPrefix + alertUri;
+var Appkey = "TE_9539DC0B270FF272_1";
+var Authtoken = "c708c31152dc666c9f2ad8115b1ead3ba9c1cf6133e9dee5e7a1b6485c703f57085aeafc026f9d8717b434e98ed919ae22778f37510d3d0eddde5925250b7d5e66374e8c82a899a5051555b97d9f0ddcfa49a1ba09e88b169f83674b6d6f90553af2e21b72f277ca2f5b9202f5bf";
+var Requesttoken = "0ff534bc2f055f2f7fa400c304797680";
+
+
+
+
+function getCoAlarm() {
+	$.ajax(alertUrl, {
+		type: 'GET',
+		dataType: 'json',
+	  	success: success,
+	  	error: error,
+	  	headers: {
+	  		"Appkey": Appkey,
+	  		"Authtoken": Authtoken,
+	  		"Requesttoken": Requesttoken
+	  	}
+	});
+
+	function success(data) {
+		var coAlarmOn = false;
+
+		if (console) {
+			console.log(data);
+		}
+
+		if (data && data.content && data.content.alerts) {
+			for (var prop in data.content.alerts) {
+				console.log("alert " + prop);
+				console.log(data.content.alerts[prop]);
+
+				var deviceAlerts = data.content.alerts[prop];
+
+				for (var i = 0; i<deviceAlerts.length; i++) {
+					var alert = deviceAlerts[i];
+					if (alert.deviceEventLabel == "co-alarm") {
+						// this is carbon dioxide alarm
+						coAlarmOn = true;
+					}
+				}
+				 
+			}
+
+			if (coAlarmOn) {
+				showKitchenFire();
+				console.log("co-alarm is one");
+				fire();
+				callJaguar();
+			} else {
+				clearKitchenFire();
+				clearFire();
+			}
+		}
+	}
+
+	function error() {
+		if (console) {
+			console.log("error");
+		}
+	}
+}
+
+// temporary stop getting data from at&t digital life
+setInterval(getCoAlarm, 1000);
+
+
+/**
+ * move the robot up
+ */
+function moveUp() {
+	$.post("https://maker.ifttt.com/trigger/forward/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
+
+function moveDown() {
+	$.post("https://maker.ifttt.com/trigger/backward/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
+
+function moveLeft() {
+	$.post("https://maker.ifttt.com/trigger/leftturn/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
+
+function moveRight() {
+	$.post("https://maker.ifttt.com/trigger/turnright/with/key/UlvFhKl_pEbC4z6zTe7f5");
+}
+
+
+
+/**
+ * when the person falldown
+ */
+function falldown() {
+	// onArrivingConfroom1 is repurposed to show fall down message
+	onArrivingConfroom1($("#billgates"));
+	stopPersonAnimation();
+	$(".person .falldown").show();
+}
+
+/** 
+ * 
+ * call phillips hue light 
+ * @input - the body data in javascript object (not string)
+ */
+function callHue(input) {
+	var url = "http://10.10.31.122/api/Rxs5fTA1zDgxlbXZv7wP6tchV6dcy3CudbnvTRIF/groups/0/action";
+	var body = JSON.stringify(input);
+	$.ajax(url, {
+		type: 'PUT',
+		data: body,
+		//dataType: 'json',
+	  	success: success,
+	  	error: error,
+	  	headers: {
+	  		"Content-Type": "application/json",
+			
+	  	}
+	});	
+	
+	function success(data) {
+		console.log(data);
+	}
+	
+	function error(data) {
+		console.log("error");
+	}
+}
+
+function setHueGrey() {
+	callHue({"xy":[0.2924,0.2877],"bri":254,"transitiontime":0});
+}
+
+function setHueDim() {
+	callHue({"bri":1,"transitiontime":0});
+}
+
+function setHueRed() {
+	callHue({"xy": [0.5916,0.3824],"bri":254,"transitiontime":0});
+}
+
+function setHueBlue() {
+	callHue({"xy": [0.168,0.041],"bri":254,"transitiontime":0});
+}
+
+function callJaguar() {
+	var url = "http://38.129.64.51/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/panic";
+	var input = { "action": "START" };
+	var body = JSON.stringify(input);
+	var username = "mock-user";
+	var password = "mock-password";
+	$.ajax(url, {
+		type: 'POST',
+		data: body,
+		//dataType: 'json',
+	  	success: success,
+	  	error: error,
+	  	headers: {
+	  		"Content-Type": "application/json",
+	  		"Authorization": "Basic " + btoa(username + ":" + password)
+	  	}
+	});	
+	
+	function success(data) {
+		console.log(data);
+	}
+	
+	function error(data) {
+		console.log("error");
+	}
+}
+
+var hueInterval;
+var hueColorDim = false;
+
+function fire() {
+	setHueRed();
+	hueColorDim = false;
+	hueInterval = setInterval(toggleHue, 1000);
+	//setTimeout(fire2, 1000);
+}
+
+function clearFire() {
+	clearInterval(hueInterval);
+}
+
+function toggleHue() {
+	if (hueColorDim) {
+		setHueRed();
+	} else {
+		setHueDim();
+	}
+}
+
+function fire2() {
+	setHueDim();
+	setTimeout(fire3, 1000);
+}
+
+function fire3() {
+	setHueRed();
+	setTimeout(fire4, 1000);
+}
+
+function fire4() {
+	setHueDim();
+	setTimeout(fire5, 1000);
+}
+
+function fire5() {
+	setHueRed();
+}
+
+function waterDamage() {
+	toBlue("#toilet1");
+	setHueBlue();
+}
+
+(function() {
+
+})();
+</script>
+
+
+
+
+<script>
+// Initialize Firebase
+var config = {
+  apiKey: "apiKey",
+  databaseURL: "https://att2016hackathon.firebaseio.com",
+};
+firebase.initializeApp(config);
+
+// wait for trigger from pebble watch
+var triggerValue = undefined;
+firebase.database().ref('trigger/event').on('value', function(snapshot) {
+	if (console) {
+		var value = snapshot.val();
+		console.log(snapshot.val());
+		if (triggerValue) {
+			falldown();
+		}
+		triggerValue = snapshot.val();
+		
+	}
+});
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+	var startPersonAnimation;
+	var stopPersonAnimation;
+
+	// doing animation
+  	(function() {
+  		var confroom1 = {xmin:20, ymin: 20, xmax: 200, ymax: 140};
+
+  		var kitchenPosition = {x: 190, y: 160};
+  		var bedroom1Position = {x: 70, y: 170};
+  		var livingroomPosition = {x: 160, y: 300};
+  		var toilet1Position = {x: 50, y: 290};
+  		var garagePosition = {x: 50, y: 400};
+
+  		var samplePositions = [
+  			kitchenPosition,
+  			bedroom1Position,
+  			toilet1Position,
+  			garagePosition,
+  			livingroomPosition,
+  			livingroomPosition,
+  			garagePosition,
+  			livingroomPosition,
+  			toilet1Position,
+  			bedroom1Position,
+  			kitchenPosition,
+  		];
+
+  		var samplePositionsIdx = 0;
+
+  		var billgatesInConfroom1 = false;
+
+  		/**
+	  	 *
+	  	 */
+	  	function positionChange() {
+	  		if (samplePositionsIdx >= (samplePositions.length - 1)) {
+	  			samplePositionsIdx = 0;
+	  		} else {
+	  			samplePositionsIdx++;
+	  		}
+
+	  		var samplePosition = samplePositions[samplePositionsIdx];
+
+	  		$("#billgates").css("left", samplePosition.x + "px");
+	  		$("#billgates").css("top", samplePosition.y + "px");
+
+
+	  		// lightup the room where the person is at
+	  		lightup(samplePosition);
+
+	  		// determine if the person is in conference room
+	  		if (!billgatesInConfroom1 && inConfroom1(samplePosition.x, samplePosition.y)) {
+	  			billgatesInConfroom1 = true;
+	  			// trigger process when it is in confroom1
+	  			onArrivingConfroom1($("#billgates"));
+	  		}
+
+	  		if (billgatesInConfroom1 && !inConfroom1(samplePosition.x, samplePosition.y)) {
+	  			billgatesInConfroom1 = false;
+	  			onLeavingConfroom1($("#billgates"));
+	  		}
+
+	  	}
+
+	  	var personAnimation = setInterval(positionChange, 2000);
+	  	
+	  	startPersonAnimation = function() {
+	  		personAnimation = setInterval(positionChange, 2000);
+	  	}
+	  	stopPersonAnimation = function() {
+	  		clearInterval(personAnimation);
+	  	}
+	  	
+
+
+
+	  	function lightup(position) {
+	  		var areaColor = "area-yellow";
+	  		clearAllLightup();
+	  		if (position === kitchenPosition) {
+	  			changeAreaPresetColor("#kitchen", areaColor);
+	  		} else if (position === bedroom1Position) {
+	  			changeAreaPresetColor("#bedroom1", areaColor);
+	  		} else if (position === livingroomPosition) {
+	  			changeAreaPresetColor("#livingroom", areaColor);
+	  		} else if (position === toilet1Position) {
+	  			changeAreaPresetColor("#toilet1", areaColor);
+	  		} else if (position === garagePosition) {
+	  			changeAreaPresetColor("#garage", areaColor);
+	  		}
+	  	}
+
+	  	function clearAllLightup() {
+	  		var areaColor = "area-clear";
+	  		changeAreaPresetColor("#kitchen", areaColor);
+	  		changeAreaPresetColor("#bedroom1", areaColor);
+	  		changeAreaPresetColor("#livingroom", areaColor);
+	  		changeAreaPresetColor("#toilet1", areaColor);
+	  		changeAreaPresetColor("#garage", areaColor);
+	  	}
+
+	  	/**
+	  	 * determine if the person is in the conference room
+	  	 */
+	  	function inConfroom1(x, y) {
+	  		var inside = false;
+	  		if (x >= confroom1.xmin 
+	  			&& x <= confroom1.xmax
+	  			&& y >= confroom1.ymin
+	  			&& y <= confroom1.ymax) {
+	  			inside = true;
+	  		}
+
+	  		return inside;
+	  	}
+
+
+	  	
+  	})();
+  	
+  	function onArrivingConfroom1(personElem) {
+  		personElem.find(".person-status").text("Fell down");
+  		personElem.children(".person-status-container").show();
+  		personElem.children(".wait").show();
+
+  		setTimeout(showAdding, 1000, personElem);
+
+  		
+  	}
+
+  	function onLeavingConfroom1(personElem) {
+  		personElem.find(".person-status").text("");
+  		personElem.children(".person-status-container").hide();
+  		personElem.children(".checkmark").css("display", "none");
+  	}
+
+  	function showAdding(personElem) {
+  		personElem.children(".wait").show();
+  		personElem.find(".person-status").text("Fell down");
+
+  		setTimeout(showAdded, 1000, personElem);
+  	}
+
+  	function showAdded(personElem) {
+  		personElem.children(".wait").hide();
+  		personElem.find(".person-status").text("Alert system");
+  		personElem.children(".checkmark").show();
+  	}
+  </script>
+
+</html>
