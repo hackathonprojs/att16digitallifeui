@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type='text/javascript'>
+
+function init()
+{
+    //var xmlHTTP = new XMLHttpRequest();
+    //xmlHTTP.open('POST','/images/photos/badger.jpg',true);
+
+    var xmlHTTP = new XMLHttpRequest();
+    var url = "http://192.168.43.1:6624/osc/commands/execute";
+    var params = "lorem=ipsum&name=binny";
+    xmlHTTP.open("POST", url, true);
+
+    //Send the proper header information along with the request
+    xmlHTTP.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xmlHTTP.onreadystatechange = function() {//Call a function when the state changes.
+        if(http.readyState == 4 && http.status == 200) {
+            alert(http.responseText);
+        }
+    }
+    http.send(params);
+    
+    // Must include this line - specifies the response type we want
+    xmlHTTP.responseType = 'arraybuffer';
+
+    xmlHTTP.onload = function(e)
+    {
+
+        var arr = new Uint8Array(this.response);
+
+
+        // Convert the int array to a binary string
+        // We have to use apply() as we are converting an *array*
+        // and String.fromCharCode() takes one or more single values, not
+        // an array.
+        var raw = String.fromCharCode.apply(null,arr);
+
+        // This works!!!
+        var b64=btoa(raw);
+        var dataURL="data:image/jpeg;base64,"+b64;
+        document.getElementById("image").src = dataURL;
+    };
+
+    xmlHTTP.send();
+}
+
+</script>
+</head>
+<body onload='init()'>
+<img id="image" alt="data url loaded image" />
+</body>
+</html>
